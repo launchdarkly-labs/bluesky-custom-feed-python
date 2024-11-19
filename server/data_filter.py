@@ -39,9 +39,6 @@ def operations_callback(ops: defaultdict) -> None:
         #     f': {inlined_text}'
         # )
 
-
-        # if author in ALLOWED_AUTHORS:
-
         if any(keyword in record.text.lower() for keyword in KEYWORDS):
             contains_denialism = detect_vaccine_denialism(record.text)
             if not contains_denialism:
