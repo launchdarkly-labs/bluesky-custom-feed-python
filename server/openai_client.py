@@ -26,7 +26,7 @@ def detect_vaccine_denialism(text: str) -> bool:
         print("LaunchDarkly flag is not enabled")
         return False
     try:
-        print("flag is on!!!!")
+        print("LaunchDarkly flag is on!!!!")
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -38,7 +38,7 @@ def detect_vaccine_denialism(text: str) -> bool:
         )
         
         result = response.choices[0].message.content.strip().lower()
-        print("!!!!!RESULT", result)
+        print("detect_vaccine_denialism result: ", result)
         return result == "true"
         
     except Exception as e:
