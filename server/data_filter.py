@@ -28,8 +28,8 @@ def operations_callback(ops: defaultdict) -> None:
             f': {inlined_text}'
         )
 
-        # only alf-related posts
         post_with_images = isinstance(record.embed, models.AppBskyEmbedImages.Main)
+        # only alf-related posts
         if 'alf' in record.text.lower():
             inlined_text = record.text.replace('\n', ' ')
             logger.info(
