@@ -72,14 +72,18 @@ def _run(name, operations_callback, stream_stop_event=None):
         if stream_stop_event and stream_stop_event.is_set():
             client.stop()
             return
-
-        commit = parse_subscribe_repos_message(message)
+        
+        try:
+            commit = parse_subscribe_repos_message(message)
+        except Exception as e:
+            # logger.error(f"Error parsing message: {e}")
+            return
         if not isinstance(commit, models.ComAtprotoSyncSubscribeRepos.Commit):
             return
 
         # update stored state every ~20 events
         if commit.seq % 20 == 0:
-            logger.info(f'Updated cursor for {name} to {commit.seq}')
+            # logger.info(f'Updated cursor for {name} to {commit.seq}')
             client.update_params(models.ComAtprotoSyncSubscribeRepos.Params(cursor=commit.seq))
             SubscriptionState.update(cursor=commit.seq).where(SubscriptionState.service == name).execute()
 
